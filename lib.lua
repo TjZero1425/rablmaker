@@ -68,7 +68,9 @@ local Library = {
         Caplock = false,
         LeftShift = false
     },
-    Images = {},
+    Images = {
+        ['bg'] = ''
+    },
     WindowVisible = true,
     Communication = Instance.new("BindableEvent")
 }
@@ -480,10 +482,10 @@ do
         Utility.AddFolder("StarClient/Configs")
         Utility.AddFolder("StarClient/Scripts")
         --
-        Library.Theme.Gradient = Utility.AddImage("StarClient/Assets/UI/Gradient.png", "https://raw.githubusercontent.com/mvonwalk/Exterium/main/Gradient.png")
+        Library.Theme.Gradient = Utility.AddImage("StarClient/Assets/UI/Gradient.png", "https://raw.githubusercontent.com/portallol/luna/main/modules/gradient90.png")
         -- Library.Theme.SecondIcon = Utility.AddImage("StarClient/Assets/UI/Gradient.png", "https://raw.githubusercontent.com/mvonwalk/Exterium/main/Gradient.png")
-        Library.Theme.Hue = Utility.AddImage("StarClient/Assets/UI/Hue.png", "https://raw.githubusercontent.com/mvonwalk/Exterium/main/HuePicker.png")
-        Library.Theme.Saturation = Utility.AddImage("StarClient/Assets/UI/Saturation.png", "https://raw.githubusercontent.com/mvonwalk/Exterium/main/SaturationPicker.png")
+        Library.Theme.Hue = Utility.AddImage("StarClient/Assets/UI/Hue.png", "ttps://raw.githubusercontent.com/portallol/luna/main/modules/lgbtqshit.png")
+        Library.Theme.Saturation = Utility.AddImage("StarClient/Assets/UI/Saturation.png", "https://cdn.pixabay.com/photo/2022/07/11/07/44/gradient-7314374_1280.png")
         Library.Theme.SaturationCursor = Utility.AddImage("StarClient/Assets/UI/HueCursor.png", "https://raw.githubusercontent.com/mvonwalk/splix-assets/main/Images-cursor.png")
         --
         Library.Theme.Astolfo = Utility.AddImage("StarClient/Assets/UI/Astolfo.png", "https://i.imgur.com/T20cWY9.png")
