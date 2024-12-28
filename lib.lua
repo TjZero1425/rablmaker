@@ -69,7 +69,7 @@ local theme = {
     textcolor = Color3.fromRGB(255, 255, 255),
     textdark = Color3.fromRGB(175, 175, 175),
     textborder = Color3.fromRGB(0, 0, 0),
-    cursoroutline = Color3.fromRGB(10, 10, 10),
+    cursoroutline = Color3.fromRGB(61, 100, 227),
     font = 2,
     textsize = 13
 }
