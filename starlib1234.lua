@@ -861,17 +861,6 @@ do
             table.clear(self.drawings)
             getgenv().library = nil
         
-            library.shared.initialized = false
-            library.drawings = {}
-            library.objects = {}
-            library.hidden = {}
-            library.connections = {}
-            library.began = {}
-            library.ended = {}
-            library.changed = {}
-            library.pointers = {}
-            library.colors = {}
-        
             uis.MouseIconEnabled = true
         end        
         --
