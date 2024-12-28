@@ -867,7 +867,7 @@ do
             local cursor = utility:Create("Triangle", nil, {
                 Color = theme.cursoroutline,
                 Thickness = 2.5,
-                Filled = false,
+                Filled = true,
                 ZIndex = 65,
                 Hidden = false
             });window.cursor["cursor"] = cursor
@@ -879,7 +879,7 @@ do
             local cursor_inline = utility:Create("Triangle", nil, {
                 Color = theme.accent,
                 Filled = true,
-                Thickness = 0,
+                Thickness = 2.5,
                 ZIndex = 65,
                 Hidden = false
             });window.cursor["cursor_inline"] = cursor_inline
