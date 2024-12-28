@@ -849,52 +849,45 @@ do
         end
         --
         function window:Unload()
-            for i,v in pairs(library.connections) do
-                v:Disconnect()
-                v = nil
+            for i, v in pairs(library.connections) do
+                if v.Disconnect then
+                    v:Disconnect()
+                end
+                library.connections[i] = nil
             end
-            --
-            for i,v in next, library.hidden do
-                coroutine.wrap(function()
-                    if v[1] and v[1].Remove and v[1].__OBJECT_EXISTS then
-                        local instance = v[1]
-                        v[1] = nil
-                        v = nil
-                        --
-                        instance:Remove()
-                    end
-                end)()
+        
+            for i, v in next, library.hidden do
+                if v[1] and v[1].Remove and v[1].__OBJECT_EXISTS then
+                    local instance = v[1]
+                    v[1] = nil
+                    library.hidden[i] = nil
+                    instance:Remove()
+                end
             end
-            --
-            for i,v in pairs(library.drawings) do
-                coroutine.wrap(function()
-                    if v[1].__OBJECT_EXISTS then
-                        local instance = v[1]
-                        v[2] = nil
-                        v[1] = nil
-                        v = nil
-                        --
-                        instance:Remove()
-                    end
-                end)()
+        
+            for i, v in pairs(library.drawings) do
+                if v[1] and v[1].__OBJECT_EXISTS then
+                    local instance = v[1]
+                    v[1] = nil
+                    v[2] = nil
+                    library.drawings[i] = nil
+                    instance:Remove()
+                end
             end
-            --
-            for i,v in pairs(library.objects) do
-                i:Remove()
+        
+            for i, v in pairs(library.objects) do
+                if i.Remove then
+                    i:Remove()
+                end
+                library.objects[i] = nil
             end
-            --
-            for i,v in pairs(library.began) do
-                v = nil
+        
+            for _, tbl in ipairs({library.began, library.ended, library.changed}) do
+                for i in pairs(tbl) do
+                    tbl[i] = nil
+                end
             end
-            --
-            for i,v in pairs(library.ended) do
-                v = nil
-            end
-            --
-            for i,v in pairs(library.changed) do
-                v = nil
-            end
-            --
+        
             library.shared.initialized = false
             library.drawings = {}
             library.objects = {}
@@ -905,9 +898,9 @@ do
             library.changed = {}
             library.pointers = {}
             library.colors = {}
-            --
+        
             uis.MouseIconEnabled = true
-        end
+        end        
         --
         function window:Cursor(info)
             window.cursor = {}
