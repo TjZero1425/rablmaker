@@ -863,48 +863,70 @@ do
         --
         function window:Cursor(info)
             window.cursor = {}
-            --
+            
+            -- Create the outline cursor
             local cursor = utility:Create("Triangle", nil, {
                 Color = theme.cursoroutline,
                 Thickness = 2.5,
-                Filled = true,
+                Filled = false,
                 ZIndex = 65,
                 Hidden = false
-            });window.cursor["cursor"] = cursor
-            --
-            library.colors[cursor] = {
-                Color = "cursoroutline"
-            }
-            --
+            })
+            window.cursor["cursor"] = cursor
+            
+            -- Create the inline cursor (accent)
             local cursor_inline = utility:Create("Triangle", nil, {
                 Color = theme.accent,
                 Filled = true,
-                Thickness = 2.5,
+                Thickness = 0,
                 ZIndex = 65,
                 Hidden = false
-            });window.cursor["cursor_inline"] = cursor_inline
+            })
+            window.cursor["cursor_inline"] = cursor_inline
             library.accents[#library.accents + 1] = cursor_inline
-            --
             library.colors[cursor_inline] = {
                 Color = "accent"
             }
-            --
+        
+            -- Create the dark contrast fill cursor using theme.darkcontrast
+            local cursor_fill = utility:Create("Triangle", nil, {
+                Color = theme.darkcontrast or Color3.fromRGB(50, 50, 50),  -- Use theme.darkcontrast if defined, otherwise fallback to dark gray
+                Filled = true,
+                Thickness = 0,
+                ZIndex = 64,  -- Slightly behind the other cursors
+                Hidden = false
+            })
+            window.cursor["cursor_fill"] = cursor_fill
+            library.colors[cursor_fill] = {
+                Color = "contrast"
+            }
+            
+            -- Update cursor positions on RenderStepped
             utility:Connection(rs.RenderStepped, function()
                 local mouseLocation = utility:MouseLocation()
-                --
+                
+                -- Update positions for the outline cursor
                 cursor.PointA = Vector2.new(mouseLocation.X, mouseLocation.Y)
                 cursor.PointB = Vector2.new(mouseLocation.X + 12, mouseLocation.Y + 4)
                 cursor.PointC = Vector2.new(mouseLocation.X + 4, mouseLocation.Y + 12)
-                --
+                
+                -- Update positions for the inline cursor
                 cursor_inline.PointA = Vector2.new(mouseLocation.X, mouseLocation.Y)
                 cursor_inline.PointB = Vector2.new(mouseLocation.X + 12, mouseLocation.Y + 4)
                 cursor_inline.PointC = Vector2.new(mouseLocation.X + 4, mouseLocation.Y + 12)
+                
+                -- Update positions for the dark contrast fill cursor
+                cursor_fill.PointA = Vector2.new(mouseLocation.X, mouseLocation.Y)
+                cursor_fill.PointB = Vector2.new(mouseLocation.X + 12, mouseLocation.Y + 4)
+                cursor_fill.PointC = Vector2.new(mouseLocation.X + 4, mouseLocation.Y + 12)
             end)
-            --
+            
+            -- Disable the default mouse icon
             uis.MouseIconEnabled = false
-            --
+            
             return window.cursor
         end
+        
         --
         function window:Fade()
             window.fading = true
