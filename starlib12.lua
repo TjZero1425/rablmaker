@@ -278,6 +278,7 @@ local themes = {
         cursoroutline = Color3.fromRGB(10, 10, 10)    
     };
 }
+library.unloaded = library.signal.new();
 
 -- // utility Functions
 do
@@ -849,44 +850,15 @@ do
         end
         --
         function window:Unload()
-            for i, v in pairs(library.connections) do
-                if v.Disconnect then
-                    v:Disconnect()
-                end
-                library.connections[i] = nil
+            library.unloaded:Fire();
+            for _,c in next, self.connections do
+                c:Disconnect()
             end
-        
-            for i, v in next, library.hidden do
-                if v[1] and v[1].Remove and v[1].__OBJECT_EXISTS then
-                    local instance = v[1]
-                    v[1] = nil
-                    library.hidden[i] = nil
-                    instance:Remove()
-                end
+            for obj in next, self.drawings do
+                obj:Remove()
             end
-        
-            for i, v in pairs(library.drawings) do
-                if v[1] and v[1].__OBJECT_EXISTS then
-                    local instance = v[1]
-                    v[1] = nil
-                    v[2] = nil
-                    library.drawings[i] = nil
-                    instance:Remove()
-                end
-            end
-        
-            for i, v in pairs(library.objects) do
-                if i.Remove then
-                    i:Remove()
-                end
-                library.objects[i] = nil
-            end
-        
-            for _, tbl in ipairs({library.began, library.ended, library.changed}) do
-                for i in pairs(tbl) do
-                    tbl[i] = nil
-                end
-            end
+            table.clear(self.drawings)
+            getgenv().library = nil
         
             library.shared.initialized = false
             library.drawings = {}
