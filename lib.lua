@@ -61,7 +61,7 @@ local sections = {}
 -- Theme Variables
 --local themes = {}
 local theme = {
-    accent = Color3.fromRGB(55, 175, 225),
+    accent = Color3.fromRGB(61, 100, 227),
     lightcontrast = Color3.fromRGB(30, 30, 30),
     darkcontrast = Color3.fromRGB(20, 20, 20),
     outline = Color3.fromRGB(0, 0, 0),
@@ -83,7 +83,7 @@ local themes = {
         ['textcolor'] = Color3.fromRGB(255,255,255);
         textdark = Color3.fromRGB(175, 175, 175);
         ['textborder'] = Color3.fromRGB(0,0,0);
-        ['cursoroutline'] = Color3.fromRGB(10,10,10);
+        ['cursoroutline'] = Color3.fromRGB(61, 100, 227);
         font = 2,
         textsize = 13    
     },
