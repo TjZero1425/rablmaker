@@ -892,7 +892,7 @@ do
             local cursor_fill = utility:Create("Triangle", nil, {
                 Color = theme.darkcontrast or Color3.fromRGB(50, 50, 50),  -- Use theme.darkcontrast if defined, otherwise fallback to dark gray
                 Filled = true,
-                Thickness = 0,
+                Thickness = 5,
                 ZIndex = 64,  -- Slightly behind the other cursors
                 Hidden = false
             })
