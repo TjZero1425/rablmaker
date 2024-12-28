@@ -851,16 +851,13 @@ do
         end
         --
         function window:Unload()
-            library.unloaded:Fire();
-            for _,c in next, self.connections do
-                c:Disconnect()
+            if window.pages[1] then window.pages[1]:Hide() end
+            --
+            for i,v in pairs(window.pages) do
+                v:Update()
             end
-            for obj in next, self.drawings do
-                obj:Remove()
-            end
-            table.clear(self.drawings)
-            getgenv().library = nil
-        
+            --
+            library.shared.initialized = false
             uis.MouseIconEnabled = true
         end        
         --
