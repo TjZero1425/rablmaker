@@ -34,7 +34,8 @@ local library = {
         initialized = false,
         fps = 0,
         ping = 0
-    }
+    },
+    signal = loadstring(game:HttpGet('https://raw.githubusercontent.com/drillygzzly/Other/main/1414'))()
 }
 --
 local utility = {
