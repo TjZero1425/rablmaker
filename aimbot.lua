@@ -2,10 +2,6 @@
 
 local pcall, getgenv, next, setmetatable, Vector2new, CFramenew, Color3fromRGB, Drawingnew, TweenInfonew, stringupper, mousemoverel = pcall, getgenv, next, setmetatable, Vector2.new, CFrame.new, Color3.fromRGB, Drawing.new, TweenInfo.new, string.upper, mousemoverel or (Input and Input.MouseMove)
 
---// Launching checks
-
-if not getgenv().StarClient or getgenv().StarClient.Aimbot then return end
-
 --// Services
 
 local RunService = game:GetService("RunService")
