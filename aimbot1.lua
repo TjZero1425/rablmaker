@@ -11,7 +11,7 @@ local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 local Camera = workspace.CurrentCamera
 
-getgenv().StarClient = {}
+if not getgenv().StarClient or getgenv().StarClient.Aimbot then return end
 
 --// Variables
 
