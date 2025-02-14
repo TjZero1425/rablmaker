@@ -25,7 +25,7 @@ testdebug.getupvalues = getgenv().getupvalues
 testdebug.setupvalue = getgenv().setupvalue
 testdebug.getregistry = getgenv().getregistry
 
-debug = testdebug
+getgenv().debug = testdebug
 
 getgenv().bit = {}
 
