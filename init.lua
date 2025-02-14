@@ -112,7 +112,7 @@ do
     end)
 end
 
-getgenv().getactors = newcclosure(function()
+getgenv().getactors = function()
     local actors = {};
     for i, v in game:GetDescendants() do
         if v:IsA("Actor") then
@@ -120,7 +120,7 @@ getgenv().getactors = newcclosure(function()
         end
     end
     return actors;
-end);
+end;
 
 setreadonly(getgenv().debug,false)
 getgenv().debug.traceback = getrenv().debug.traceback
@@ -190,7 +190,7 @@ setreadonly(getgenv().crypt, true)
 getgenv().getscriptfunction = getscriptclosure
 
 local oldreq = clonefunction(getrenv().require)
-getgenv().require = newcclosure(function(v)
+getgenv().require = function(v)
     local oldlevel = getthreadcontext()
     local succ, res = pcall(oldreq, v)
     if not succ and res:find('RobloxScript') then
@@ -207,4 +207,4 @@ getgenv().require = newcclosure(function(v)
     if succ then
         return res
     end
-end)
+end
