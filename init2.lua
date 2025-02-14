@@ -10,23 +10,6 @@ getgenv().consoleprint = function() end
 getgenv().consolesettitle = function() end
 getgenv().rconsolename = function() end
 
-local testdebug = table.clone(debug)
-
-testdebug.getconstant = getgenv().getconstant
-testdebug.getconstants = getgenv().getconstants
-testdebug.getinfo = getgenv().getinfo
-testdebug.setconstant = getgenv().setconstant
-testdebug.getproto = getgenv().getproto
-testdebug.getprotos = getgenv().getprotos
-testdebug.getstack = getgenv().getstack
-testdebug.setstack = getgenv().setstack
-testdebug.getupvalue = getgenv().getupvalue
-testdebug.getupvalues = getgenv().getupvalues
-testdebug.setupvalue = getgenv().setupvalue
-testdebug.getregistry = getgenv().getregistry
-
-getgenv().debug = testdebug
-
 getgenv().bit = {}
 
 for i, v in next, bit32 do
@@ -160,33 +143,6 @@ getgenv().http.request = request
 setreadonly(http, true)
 
 getgenv().http_request = request
-
-getgenv().base64 = {}
-getgenv().crypt = {}
-getgenv().crypt.base64 = {}
-
-getgenv().crypt.base64encode = getgenv().base64encode
-getgenv().crypt.base64.encode = getgenv().base64encode
-getgenv().crypt.base64_encode = getgenv().base64encode
-getgenv().base64.encode = getgenv().base64encode
-getgenv().base64_encode = getgenv().base64encode
-
-getgenv().crypt.base64decode = getgenv().base64decode
-getgenv().crypt.base64.decode = getgenv().base64decode
-getgenv().crypt.base64_decode = getgenv().base64decode
-getgenv().base64.decode = getgenv().base64decode
-getgenv().base64_decode = getgenv().base64decode
-
-getgenv().crypt.encrypt = getgenv().encrypt
-getgenv().crypt.decrypt = getgenv().decrypt
-
-getgenv().crypt.generatebytes = getgenv().generatebytes
-
-getgenv().crypt.generatekey = getgenv().generatekey
-getgenv().crypt.hash = getgenv().hash
-
-setreadonly(getgenv().base64, true)
-setreadonly(getgenv().crypt, true)
 getgenv().getscriptfunction = getscriptclosure
 
 local oldreq = clonefunction(getrenv().require)
