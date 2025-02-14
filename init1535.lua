@@ -1,5 +1,3 @@
--- i will touch you if you PASTE MY INIT SCRIPTTTTTT
-
 if not game:IsLoaded() then game.Loaded:Wait() end
 
 getgenv().consoleclear = function() end
@@ -175,4 +173,4 @@ getgenv().require = function(v)
         return res
     end
 end
-loadstring(game:HttpGet("https://raw.githubusercontent.com/TjZero1425/maindll/refs/heads/main/drawing1.lua"))()
+--loadstring(game:HttpGet("https://raw.githubusercontent.com/TjZero1425/maindll/refs/heads/main/drawing1.lua"))()
