@@ -154,15 +154,6 @@ getgenv().hookmetamethod = function(obj, method, rep)
     return old
 end
 
-getgenv().newcclosure = function(func)
-	assert(type(func) == "function", "invalid argument #1 to 'newcclosure' (function expected, got " .. type(func) .. ") ", 2)
-	return coroutine.wrap(function(...)
-		while true do
-			coroutine.yield(func(...))
-		end
-	end)
-end
-
 local oldreq = clonefunction(getrenv().require)
 getgenv().require = function(v)
     local oldlevel = getthreadcontext()
