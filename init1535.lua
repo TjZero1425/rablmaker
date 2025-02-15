@@ -80,17 +80,17 @@ do
     if comm_channels.Name ~= 'comm_channels' then
         comm_channels.Name = 'comm_channels'
     end
-    getgenv().create_comm_channel = newcclosure(function() 
+    getgenv().create_comm_channel = function() 
         local id = HttpService:GenerateGUID()
         local event = Instance.new('BindableEvent', comm_channels)
         event.Name = id
         return id, event
-    end)
+    end
 
-    getgenv().get_comm_channel = newcclosure(function(id) 
+    getgenv().get_comm_channel = function(id) 
         assert(type(id) == 'string', 'string expected as argument #1')
         return comm_channels:FindFirstChild(id)
-    end)
+    end
 end
 
 getgenv().getactors = function()
@@ -153,24 +153,4 @@ getgenv().hookmetamethod = function(obj, method, rep)
     
     return old
 end
-
-local oldreq = clonefunction(getrenv().require)
-getgenv().require = function(v)
-    local oldlevel = getthreadcontext()
-    local succ, res = pcall(oldreq, v)
-    if not succ and res:find('RobloxScript') then
-        succ = nil
-        coroutine.resume(coroutine.create(newcclosure(function()
-            setthreadcontext((oldlevel > 5 and 2) or 8)
-            succ, res = pcall(oldreq, v)
-        end)))
-        repeat task.wait() until succ ~= nil
-    end
-    
-    setthreadcontext(oldlevel)
-    
-    if succ then
-        return res
-    end
-end
-loadstring(game:HttpGet("https://raw.githubusercontent.com/TjZero1425/maindll/refs/heads/main/drawing1.lua"))()
+--loadstring(game:HttpGet("https://raw.githubusercontent.com/TjZero1425/maindll/refs/heads/main/drawing1.lua"))()
