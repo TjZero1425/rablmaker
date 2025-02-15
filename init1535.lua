@@ -65,7 +65,7 @@ bit.bswap = function(x)
 end
 
 getgenv().setthreadidentity = function(identity: number): ()
-    _setidentity(identity)
+    --_setidentity(identity)
     task.wait()
 end
 
