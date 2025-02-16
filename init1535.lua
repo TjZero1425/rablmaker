@@ -7,15 +7,6 @@ getgenv().consoleinput = function() end
 getgenv().consoleprint = function() end
 getgenv().consolesettitle = function() end
 getgenv().rconsolename = function() end
-getgenv().getactors = function()
-    local actors = {};
-    for i, v in game:GetDescendants() do
-        if v:IsA("Actor") then
-            table.insert(actors, v);
-        end
-    end
-    return actors;
-end;
 
 setreadonly(getgenv().debug,false)
 getgenv().debug.traceback = getrenv().debug.traceback
@@ -66,6 +57,27 @@ getgenv().hookmetamethod = function(obj, method, rep)
     setreadonly(mt, true)
     
     return old
+end
+
+do
+    local CoreGui = game:GetService('CoreGui')
+    local HttpService = game:GetService('HttpService')
+
+    local comm_channels = CoreGui:FindFirstChild('comm_channels') or Instance.new('Folder', CoreGui)
+    if comm_channels.Name ~= 'comm_channels' then
+        comm_channels.Name = 'comm_channels'
+    end
+    getgenv().create_comm_channel = newcclosure(function() 
+        local id = HttpService:GenerateGUID()
+        local event = Instance.new('BindableEvent', comm_channels)
+        event.Name = id
+        return id, event
+    end)
+
+    getgenv().get_comm_channel = newcclosure(function(id) 
+        assert(type(id) == 'string', 'string expected as argument #1')
+        return comm_channels:FindFirstChild(id)
+    end)
 end
 
 local oldreq = clonefunction(getrenv().require)
