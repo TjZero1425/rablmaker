@@ -1,6 +1,5 @@
 if not game:IsLoaded() then game.Loaded:Wait() end
 
---[===[
 -- ADONIS ANTI CHEAT BYPASS
 pcall(function()
 local already_ran_adonis_bypass = false
@@ -98,7 +97,6 @@ findAdonisMenu()
 PlayerGui.ChildAdded:Connect(findAdonisMenu)
 end)
 --
-]===]
 
 getgenv().consoleclear = function() end
 getgenv().consolecreate = function() end
