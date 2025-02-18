@@ -80,20 +80,21 @@ do
 end
 
 
+
 local oldreq = clonefunction(getrenv().require)
 getgenv().require = newcclosure(function(v)
-    local oldlevel = getidentity()
+    local oldlevel = getthreadcontext()
     local succ, res = pcall(oldreq, v)
     if not succ and res:find('RobloxScript') then
         succ = nil
         coroutine.resume(coroutine.create(newcclosure(function()
-            setidentity(3)
+            setthreadcontext((oldlevel > 5 and 2) or 8)
             succ, res = pcall(oldreq, v)
         end)))
         repeat task.wait() until succ ~= nil
     end
     
-    setidentity(oldlevel)
+    setthreadcontext(oldlevel)
     
     if succ then
         return res
