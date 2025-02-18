@@ -47,18 +47,6 @@ setreadonly(http, true)
 
 getgenv().http_request = request
 getgenv().getscriptfunction = getscriptclosure
-
-getgenv().hookmetamethod = function(obj, method, rep)
-    local mt = getrawmetatable(obj)
-    local old = mt[method]
-    
-    setreadonly(mt, false)
-    mt[method] = rep
-    setreadonly(mt, true)
-    
-    return old
-end
-
 do
     local CoreGui = game:GetService('CoreGui')
     local HttpService = game:GetService('HttpService')
