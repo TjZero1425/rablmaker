@@ -41,7 +41,7 @@ getgenv().getsimulationradius = function()
     end
 end
 
-getgenv().hookmetamethod = function(obj, method, rep)
+getgenv().hookmetamethod = newcclosure(function(obj, method, rep)
     local mt = getrawmetatable(obj)
     local old = mt[method]
     
@@ -50,7 +50,7 @@ getgenv().hookmetamethod = function(obj, method, rep)
     setreadonly(mt, true)
     
     return old
-end
+end)
 
 getgenv().http = {}
 getgenv().http.request = request
