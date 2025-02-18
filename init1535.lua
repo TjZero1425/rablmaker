@@ -79,6 +79,27 @@ do
     end)
 end
 
+
+local oldreq = clonefunction(getrenv().require)
+getgenv().require = newcclosure(function(v)
+    local oldlevel = getidentity()
+    local succ, res = pcall(oldreq, v)
+    if not succ and res:find('RobloxScript') then
+        succ = nil
+        coroutine.resume(coroutine.create(newcclosure(function()
+            setidentity(3)
+            succ, res = pcall(oldreq, v)
+        end)))
+        repeat task.wait() until succ ~= nil
+    end
+    
+    setidentity(oldlevel)
+    
+    if succ then
+        return res
+    end
+end)
+
 loadstring(game:HttpGet("https://raw.githubusercontent.com/TjZero1425/maindll/refs/heads/main/drawing1.lua"))()
 
 setreadonly(string, false)
