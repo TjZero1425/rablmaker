@@ -67,25 +67,16 @@ do
     end)
 end
 
-local oldreq = clonefunction(getrenv().require)
-getgenv().require = newcclosure(function(v)
-    local oldlevel = getthreadcontext()
-    local succ, res = pcall(oldreq, v)
-    if not succ and res:find('RobloxScript') then
-        succ = nil
-        coroutine.resume(coroutine.create(newcclosure(function()
-            setthreadcontext((oldlevel > 5 and 2) or 8)
-            succ, res = pcall(oldreq, v)
-        end)))
-        repeat task.wait() until succ ~= nil
-    end
+getgenv().hookmetamethod = function(obj, method, rep)
+    local mt = getrawmetatable(obj)
+    local old = mt[method]
     
-    setthreadcontext(oldlevel)
+    setreadonly(mt, false)
+    mt[method] = rep
+    setreadonly(mt, true)
     
-    if succ then
-        return res
-    end
-end)
+    return old
+end
 
 loadstring(game:HttpGet("https://raw.githubusercontent.com/TjZero1425/maindll/refs/heads/main/drawing1.lua"))()
 
