@@ -67,17 +67,6 @@ do
     end)
 end
 
-getgenv().hookmetamethod = newcclosure(function(obj, method, rep)
-    local mt = getrawmetatable(obj)
-    local old = mt[method]
-    
-    setreadonly(mt, false)
-    mt[method] = rep
-    setreadonly(mt, true)
-    
-    return old
-end)
-
 local oldreq = clonefunction(getrenv().require)
 getgenv().require = newcclosure(function(v)
     local oldlevel = getthreadcontext()
