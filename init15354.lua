@@ -105,10 +105,9 @@ end)
 loadstring(game:HttpGet("https://raw.githubusercontent.com/TjZero1425/maindll/refs/heads/main/drawing1.lua"))()
 
 setreadonly(string, false)
-
-local original_find = string.find
-string.find = function(str, pattern, ...)
-    return original_find(tostring(str), pattern, ...)
-end
-
+getgenv().string.find = getrenv().string.find
+getgenv().string.format = getrenv().string.format
+getgenv().string.gmatch = getrenv().string.gmatch
+getgenv().string.match = getrenv().string.match
+getgenv().string.gsub = getrenv().string.gsub
 setreadonly(string, true)
