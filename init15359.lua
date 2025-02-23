@@ -88,3 +88,6 @@ getgenv().saveinstance = newcclosure(function(options)
 	return _saveinstance(options)
 end)
 getgenv().savegame = saveinstance
+
+getgenv().__Disassemble = decompile
+getgenv().__disassemble = decompile
