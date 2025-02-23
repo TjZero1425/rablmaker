@@ -78,3 +78,13 @@ getgenv().require = newcclosure(function(v)
 end)
 
 loadstring(httpget("https://raw.githubusercontent.com/TjZero1425/maindll/refs/heads/main/drawing1.lua"))()
+
+local _saveinstance = nil
+getgenv().saveinstance = newcclosure(function(options)
+	options = options or {}
+	assert(type(options) == "table", "invalid argument #1 to 'saveinstance' (table expected, got " .. type(options) .. ") ", 2)
+	print("saveinstance Powered by UniversalSynSaveInstance | AGPL-3.0 license")
+	_saveinstance = _saveinstance or loadstring(game:HttpGet("https://raw.githubusercontent.com/luau/SynSaveInstance/main/saveinstance.luau", true), "saveinstance")()
+	return _saveinstance(options)
+end)
+getgenv().savegame = saveinstance
