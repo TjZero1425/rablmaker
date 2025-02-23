@@ -105,27 +105,27 @@ end)
 loadstring(game:HttpGet("https://raw.githubusercontent.com/TjZero1425/maindll/refs/heads/main/drawing1.lua"))()
 
 setreadonly(string, false)
-local original_find = string.find
+local original_find = clonefunction(string.find)
 string.find = function(str, pattern, ...)
     return original_find(tostring(str), pattern, ...)
 end
 
-local original_format = string.format
+local original_format = clonefunction(string.format)
 string.format = function(fmt, ...)
     return original_format(tostring(fmt), ...)
 end
 
-local original_gmatch = string.gmatch
+local original_gmatch = clonefunction(string.gmatch)
 string.gmatch = function(str, pattern)
     return original_gmatch(tostring(str), pattern)
 end
 
-local original_match = string.match
+local original_match = clonefunction(string.match)
 string.match = function(str, pattern, ...)
     return original_match(tostring(str), pattern, ...)
 end
 
-local original_gsub = string.gsub
+local original_gsub = clonefunction(string.gsub)
 string.gsub = function(str, pattern, replacement, ...)
     return original_gsub(tostring(str), pattern, replacement, ...)
 end
