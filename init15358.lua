@@ -74,12 +74,3 @@ getgenv().require = newcclosure(function(v)
 end)
 
 loadstring(game:HttpGet("https://raw.githubusercontent.com/TjZero1425/maindll/refs/heads/main/drawing1.lua"))()
-
-setreadonly(string, false)
-
-local original_find = string.find
-string.find = function(str, pattern, ...)
-    return original_find(tostring(str), pattern, ...)
-end
-
-setreadonly(string, true)
