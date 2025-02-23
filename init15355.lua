@@ -40,11 +40,6 @@ getgenv().getsimulationradius = function()
     end
 end
 
-getgenv().http = {}
-getgenv().http.request = request
-setreadonly(http, true)
-
-getgenv().http_request = request
 getgenv().getscriptfunction = getscriptclosure
 do
     local CoreGui = game:GetService('CoreGui')
