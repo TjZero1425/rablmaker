@@ -1,0 +1,10 @@
+getgenv().sethiddenproperty = nil
+getgenv().gethiddenproperty = nil
+getgenv().getgc = nil
+getgenv().loadstring = nil
+getgenv().hookfunction = nil
+getgenv().setscriptable = nil
+getgenv().getsenv = nil
+getgenv().getrunningscripts = nil
+getgenv().request = nil
+getgenv().httpget = nil
