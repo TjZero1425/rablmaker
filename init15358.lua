@@ -46,7 +46,7 @@ getgenv().hookmetamethod = newcclosure(function(obj, method, rep)
     local mt = getrawmetatable(obj)
     local old = mt[method]
 
-    if (!iscclosure(method))
+    if (iscclosure(method) == false) then
             rep = newcclosure(rep)
     end
         
