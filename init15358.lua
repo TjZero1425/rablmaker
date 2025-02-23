@@ -45,7 +45,11 @@ getgenv().getscriptfunction = getscriptclosure
 getgenv().hookmetamethod = newcclosure(function(obj, method, rep)
     local mt = getrawmetatable(obj)
     local old = mt[method]
-    
+
+    if (!iscclosure(method))
+            rep = newcclosure(rep)
+    end
+        
     setreadonly(mt, false)
     mt[method] = rep
     setreadonly(mt, true)
