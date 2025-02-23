@@ -41,35 +41,11 @@ getgenv().getsimulationradius = function()
 end
 
 getgenv().getscriptfunction = getscriptclosure
-do
-    local CoreGui = game:GetService('CoreGui')
-    local HttpService = game:GetService('HttpService')
-
-    local comm_channels = CoreGui:FindFirstChild('comm_channels') or Instance.new('Folder', CoreGui)
-    if comm_channels.Name ~= 'comm_channels' then
-        comm_channels.Name = 'comm_channels'
-    end
-    getgenv().create_comm_channel = newcclosure(function() 
-        local id = HttpService:GenerateGUID()
-        local event = Instance.new('BindableEvent', comm_channels)
-        event.Name = id
-        return id, event
-    end)
-
-    getgenv().get_comm_channel = newcclosure(function(id) 
-        assert(type(id) == 'string', 'string expected as argument #1')
-        return comm_channels:FindFirstChild(id)
-    end)
-end
 
 getgenv().hookmetamethod = newcclosure(function(obj, method, rep)
     local mt = getrawmetatable(obj)
     local old = mt[method]
     
-    if(iscclosure(old) == false) then
-             rep = newcclosure(rep)
-    end
-
     setreadonly(mt, false)
     mt[method] = rep
     setreadonly(mt, true)
@@ -98,31 +74,3 @@ getgenv().require = newcclosure(function(v)
 end)
 
 loadstring(game:HttpGet("https://raw.githubusercontent.com/TjZero1425/maindll/refs/heads/main/drawing1.lua"))()
-
-setreadonly(string, false)
-local original_find = clonefunction(string.find)
-string.find = function(str, pattern, ...)
-    return original_find(tostring(str), pattern, ...)
-end
-
-local original_format = clonefunction(string.format)
-string.format = function(fmt, ...)
-    return original_format(tostring(fmt), ...)
-end
-
-local original_gmatch = clonefunction(string.gmatch)
-string.gmatch = function(str, pattern)
-    return original_gmatch(tostring(str), pattern)
-end
-
-local original_match = clonefunction(string.match)
-string.match = function(str, pattern, ...)
-    return original_match(tostring(str), pattern, ...)
-end
-
-local original_gsub = clonefunction(string.gsub)
-string.gsub = function(str, pattern, replacement, ...)
-    return original_gsub(tostring(str), pattern, replacement, ...)
-end
-
-setreadonly(string, true)
