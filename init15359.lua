@@ -77,4 +77,4 @@ getgenv().require = newcclosure(function(v)
     end
 end)
 
-loadstring(game:HttpGet("https://raw.githubusercontent.com/TjZero1425/maindll/refs/heads/main/drawing1.lua"))()
+loadstring(httpget("https://pastebin.com/raw/z3xBKccm"))()
