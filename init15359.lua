@@ -44,21 +44,6 @@ end
 
 getgenv().getscriptfunction = getscriptclosure
 
-getgenv().hookmetamethod = newcclosure(function(obj, method, rep)
-    local mt = getrawmetatable(obj)
-    local old = mt[method]
-    
-    if(iscclosure(old) == false) then
-             rep = newcclosure(rep)
-    end
-
-    setreadonly(mt, false)
-    mt[method] = rep
-    setreadonly(mt, true)
-    
-    return old
-end)
-
 local oldreq = clonefunction(getrenv().require)
 getgenv().require = newcclosure(function(v)
     local oldlevel = getthreadcontext()
