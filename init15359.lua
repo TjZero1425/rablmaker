@@ -1,4 +1,6 @@
 if not game:IsLoaded() then game.Loaded:Wait() end
+loadstring(httpget("https://raw.githubusercontent.com/TjZero1425/maindll/refs/heads/main/drawing1.lua"))()
+wait(0.5)
 getgenv().consoleclear = function() end
 getgenv().consolecreate = function() end
 getgenv().consoledestroy = function() end
@@ -76,8 +78,6 @@ getgenv().require = newcclosure(function(v)
         return res
     end
 end)
-
-loadstring(httpget("https://raw.githubusercontent.com/TjZero1425/maindll/refs/heads/main/drawing1.lua"))()
 
 local _saveinstance = nil
 getgenv().saveinstance = newcclosure(function(options)
