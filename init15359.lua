@@ -93,5 +93,5 @@ getgenv().__Disassemble = decompile
 getgenv().__disassemble = decompile
 
 --wait(3)
---local DynamicToasts = loadstring(game:HttpGet("https://raw.githubusercontent.com/Reb0rnEnder/DynamicToasts/main/module.luau"))()()
---DynamicToasts:NewToast(DynamicToasts.ToastType.Okay, "Dynamic is loaded!", "By /-xstroy-arize/", 3)
+local DynamicToasts = loadstring(game:HttpGet("https://raw.githubusercontent.com/Reb0rnEnder/DynamicToasts/main/module.luau"))()()
+DynamicToasts:NewToast(DynamicToasts.ToastType.Okay, "Dynamic is loaded!", "By /-xstroy-arize/", 3)
