@@ -37,6 +37,32 @@ getgenv().isnetworkowner = newcclosure(function(part: BasePart): boolean
     return player == localPlayer;
 end);
 
+local function register(i, v)
+    getgenv()[i] = v
+    return v
+end
+
+register('hookmetamethod', newcclosure(function(obj, method, func)
+    assert(type(obj) == 'table' or typeof(obj) == 'Instance', 'Instance or userdata expected as argument #1')
+    assert(type(method) == 'string', 'string expected as argument #2')
+    assert(type(func) == 'function', 'function expected as argument #3')
+
+    local mt = getrawmetatable(obj)
+    assert(type(mt) == 'table', 'object given in argument #1 has no metatable/it is wrong')
+
+    local funcfrom = rawget(mt, method)
+    assert(type(funcfrom) == 'function', 'invalid method provided in argument #2')
+
+    if (iscclosure(funcfrom) and not iscclosure(func)) then
+        func = newcclosure(func)
+    end
+
+    local old
+    old = hookfunction(funcfrom, func)
+
+    return old
+end))
+
 getgenv().setsimulationradius = function(newRadius)
     assert(newRadius, `arg #1 is missing`)
     assert(type(newRadius) == "number", `arg #1 must be type number`)
