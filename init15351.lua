@@ -105,6 +105,14 @@ getgenv().require = newcclosure(function(v)
     end
 end)
 
+getgenv().newlclosure = function(func)
+	assert(type(func) == "function", "invalid argument #1 to 'newlclosure' (function expected, got " .. type(func) .. ") ", 2)
+               local newfunc = clonefunction(func)
+	return function(...)
+		return newfunc(...)
+	end
+end
+
 local _saveinstance = nil
 getgenv().saveinstance = newcclosure(function(options)
 	options = options or {}
