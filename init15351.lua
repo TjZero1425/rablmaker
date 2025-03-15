@@ -174,3 +174,9 @@ getgenv().savegame = saveinstance
 getgenv().__Disassemble = decompile
 getgenv().__disassemble = decompile
 loadstring(httpget("https://raw.githubusercontent.com/TjZero1425/maindll/refs/heads/main/drawing1.lua"))()
+
+    game:GetService("StarterGui"):SetCore("SendNotification", {
+        Title = "Dynamic!",
+        Text = "Dynamic has been injected.",
+        Duration = 3
+    })
