@@ -143,15 +143,15 @@ getgenv().require = newcclosure(function(v)
     end
 end)
 
-getgenv().newlclosure = function(func)
+getgenv().newlclosure = newcclosure(function(func)
 	assert(type(func) == "function", "invalid argument #1 to 'newlclosure' (function expected, got " .. type(func) .. ") ", 2)
                local newfunc = clonefunction(func)
 	return function(...)
 		return newfunc(...)
 	end
-end
+end)
 
- getgenv().getsenv = function(script_instance)
+ getgenv().getsenv = newcclosure(function(script_instance)
     for i, v in pairs(getreg()) do
        if type(v) == "function" then
           if getfenv(v).script == script_instance then
@@ -159,7 +159,28 @@ end
               end
            end
       end
- end
+ end)
+
+do
+    local CoreGui = game:GetService('CoreGui')
+    local HttpService = game:GetService('HttpService')
+
+    local comm_channels = CoreGui:FindFirstChild('comm_channels') or Instance.new('Folder', CoreGui)
+    if comm_channels.Name ~= 'comm_channels' then
+        comm_channels.Name = 'comm_channels'
+    end
+    getgenv().create_comm_channel = newcclosure(function() 
+        local id = HttpService:GenerateGUID()
+        local event = Instance.new('BindableEvent', comm_channels)
+        event.Name = id
+        return id, event
+    end)
+
+    getgenv().get_comm_channel = newcclosure(function(id) 
+        assert(type(id) == 'string', 'string expected as argument #1')
+        return comm_channels:FindFirstChild(id)
+    end)
+end
 
 local _saveinstance = nil
 getgenv().saveinstance = newcclosure(function(options)
