@@ -15,6 +15,8 @@ getgenv().debug.getmetatable = getgenv().getrawmetatable
 getgenv().debug.setmetatable = getgenv().setrawmetatable
 getgenv().debug.info = getrenv().debug.info
 
+getgenv().getscriptclosure = nil
+
 local localPlayer = cloneref(game:GetService("Players").LocalPlayer);
 getgenv().isnetworkowner = newcclosure(function(part: BasePart): boolean
     local root = localPlayer.Character and localPlayer.Character:FindFirstChild("HumanoidRootPart");
@@ -105,7 +107,7 @@ getgenv().setsimulationradius = function(newRadius)
     assert(newRadius, `arg #1 is missing`)
     assert(type(newRadius) == "number", `arg #1 must be type number`)
 
-    local LocalPlayer = game:GetService("Players").LocalPlayer
+    local LocalPlayer = cloneref(game:GetService("Players").LocalPlayer)
     if LocalPlayer then
         LocalPlayer.SimulationRadius = newRadius
         LocalPlayer.MaximumSimulationRadius = newRadius
@@ -116,7 +118,7 @@ getgenv().getsimulationradius = function()
     assert(newRadius, `arg #1 is missing`)
     assert(type(newRadius) == "number", `arg #1 must be type number`)
 
-    local LocalPlayer = game:GetService("Players").LocalPlayer
+    local LocalPlayer = cloneref(game:GetService("Players").LocalPlayer)
     if LocalPlayer then
         return LocalPlayer.SimulationRadius
     end
@@ -161,8 +163,8 @@ end)
  end)
 
 do
-    local CoreGui = game:GetService('CoreGui')
-    local HttpService = game:GetService('HttpService')
+    local CoreGui = cloneref(game:GetService('CoreGui'))
+    local HttpService = cloneref(game:GetService('HttpService'))
 
     local comm_channels = CoreGui:FindFirstChild('comm_channels') or Instance.new('Folder', CoreGui)
     if comm_channels.Name ~= 'comm_channels' then
