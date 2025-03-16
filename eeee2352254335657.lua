@@ -195,7 +195,7 @@ getgenv().savegame = saveinstance
 
 local _oldd = clonefunction(getscriptclosure_handlerbitches23134)
 
-getgenv().getscriptclosure = newcclosure(function(scr) 
+--[[getgenv().getscriptclosure = newcclosure(function(scr) 
     local closure = _oldd(scr)
 
     if typeof(closure) == "function" then
@@ -208,6 +208,25 @@ getgenv().getscriptclosure = newcclosure(function(scr)
         return nil
     end
 end)
+]]
+
+local savedClosures = {}
+
+register('getscriptclosure', newcclosure(function(scr)
+    assert(typeof(scr) == 'Instance' and (scr.ClassName == 'LocalScript' or scr.ClassName == 'ModuleScript'), 'script expected as argument #1')
+    if savedClosures[scr] then
+        return savedClosures[scr]
+    end
+    for i,v in next, getgc() do
+        if type(v) == 'function' then
+            local env = getfenv(v)
+            if type(env) == 'table' and rawget(env, 'script') == scr then
+                savedClosures[scr] = v
+                return v
+            end
+        end
+    end
+end))
 
 getgenv().getscriptfunction = getscriptclosure
 
