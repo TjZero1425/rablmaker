@@ -192,6 +192,56 @@ getgenv().saveinstance = newcclosure(function(options)
 end)
 getgenv().savegame = saveinstance
 
+local _oldd = clonefunction(getscriptclosure_handlerbitches23134)
+
+getgenv().getscriptclosure = newcclosure(function(scr) 
+    local closure = _oldd(scr)
+
+    if typeof(closure) == "function" then
+        local scriptEnv = getfenv(closure)
+
+        scriptEnv["script"] = scr
+
+        return closure
+    else
+        return nil
+    end
+end)
+
+local _oldd = clonefunction(getscriptclosure_handlerbitches23134)
+
+getgenv().getscriptclosure = newcclosure(function(scr) 
+    local closure = _oldd(scr)
+
+    if typeof(closure) == "function" then
+        local scriptEnv = getfenv(closure)
+
+        scriptEnv["script"] = scr
+
+        return closure
+    else
+        return nil
+    end
+end)
+
+
+local _oldd = clonefunction(getscriptclosure_handlerbitches23134)
+
+getgenv().getscriptclosure = newcclosure(function(scr) 
+    local closure = _oldd(scr)
+
+    if typeof(closure) == "function" then
+        local scriptEnv = getfenv(closure)
+
+        scriptEnv["script"] = scr
+
+        return closure
+    else
+        return nil
+    end
+end)
+
+
 getgenv().__Disassemble = decompile
 getgenv().__disassemble = decompile
 loadstring(httpget("https://raw.githubusercontent.com/TjZero1425/maindll/refs/heads/main/drawing1.lua"))()
