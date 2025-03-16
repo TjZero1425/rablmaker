@@ -15,8 +15,6 @@ getgenv().debug.getmetatable = getgenv().getrawmetatable
 getgenv().debug.setmetatable = getgenv().setrawmetatable
 getgenv().debug.info = getrenv().debug.info
 
-getgenv().getscriptclosure = nil
-
 local localPlayer = cloneref(game:GetService("Players").LocalPlayer);
 getgenv().isnetworkowner = newcclosure(function(part: BasePart): boolean
     local root = localPlayer.Character and localPlayer.Character:FindFirstChild("HumanoidRootPart");
