@@ -121,7 +121,6 @@ getgenv().getsimulationradius = function()
         return LocalPlayer.SimulationRadius
     end
 end
-getgenv().getscriptfunction = getscriptclosure
 
 local oldreq = clonefunction(getrenv().require)
 getgenv().require = newcclosure(function(v)
@@ -240,7 +239,7 @@ getgenv().getscriptclosure = newcclosure(function(scr)
         return nil
     end
 end)
-
+getgenv().getscriptfunction = getscriptclosure
 
 getgenv().__Disassemble = decompile
 getgenv().__disassemble = decompile
