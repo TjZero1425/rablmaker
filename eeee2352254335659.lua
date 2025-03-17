@@ -101,17 +101,6 @@ register('hookmetamethod', newcclosure(function(obj, method, func)
     return old
 end))
 
-getgenv().setsimulationradius = function(newRadius)
-    assert(newRadius, `arg #1 is missing`)
-    assert(type(newRadius) == "number", `arg #1 must be type number`)
-
-    local LocalPlayer = cloneref(game:GetService("Players").LocalPlayer)
-    if LocalPlayer then
-        LocalPlayer.SimulationRadius = newRadius
-        LocalPlayer.MaximumSimulationRadius = newRadius
-    end
-end
-
 getgenv().getsimulationradius = function()
     assert(newRadius, `arg #1 is missing`)
     assert(type(newRadius) == "number", `arg #1 must be type number`)
