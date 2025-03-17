@@ -122,6 +122,27 @@ getgenv().getsimulationradius = function()
     end
 end
 
+getgenv().getmenv = newcclosure(function(mod)
+  local mod_env = nil
+
+  for I, V in pairs(getreg()) do
+    if typeof(V) == "thread" then
+      if gettenv(V).script == mod then
+        mod_env = gettenv(V)
+        break
+      end
+    end
+  end
+
+  return mod_env
+end)
+
+getgenv().setsimulationradius = newcclosure(function(val)
+    assert(type(val) == "number", "#1 is meant to be a number")
+    sethiddenproperty(game.Players.LocalPlayer, "MaxSimulationRadius", val)
+    sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", val)
+end)
+
 local oldreq = clonefunction(getrenv().require)
 getgenv().require = newcclosure(function(v)
     local oldlevel = getthreadcontext()
@@ -212,9 +233,9 @@ getgenv().__Disassemble = decompile
 getgenv().__disassemble = decompile
 loadstring(httpget("https://raw.githubusercontent.com/TjZero1425/maindll/refs/heads/main/drawing1.lua"))()
 
-local ScriptContextService = game:GetService("ScriptContext")
-local ContentProvider = game:GetService("ContentProvider")
-local CoreGuiService = game:GetService("CoreGui")
+local ScriptContextService = cloneref(game:GetService("ScriptContext"))
+local ContentProvider = cloneref(game:GetService("ContentProvider"))
+local CoreGuiService = cloneref(game:GetService("CoreGui"))
 
 
 local SecurePrint = secureprint or print 
