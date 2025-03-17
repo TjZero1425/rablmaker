@@ -80,7 +80,7 @@ local function register(i, v)
     return v
 end
 
-register('hookmetamethod', newcclosure(function(obj, method, func)
+register('hookmetamethod1', newcclosure(function(obj, method, func)
     assert(type(obj) == 'table' or typeof(obj) == 'Instance', 'Instance or userdata expected as argument #1')
     assert(type(method) == 'string', 'string expected as argument #2')
     assert(type(func) == 'function', 'function expected as argument #3')
