@@ -269,6 +269,69 @@ OldPreloadAsync = hookfunction(ContentProvider.PreloadAsync, function(self, ...)
     return OldPreloadAsync(self, ...)
 end)
 
+local toProtect = {};
+local oldTraceback;
+
+local function isProtectedCaller(Function)
+    for i = 0, 30 do
+        local stackInfo = debug.getinfo(i);
+        if stackInfo then
+            if Function == stackInfo.func then
+                return true;
+            end;
+        else
+            break;
+        end;
+    end;
+    return false;
+end;
+
+oldTraceback = hookfunction(debug.traceback, function()
+    local stackTrace = oldTraceback();
+    for Function, spoofedTrace in next, toProtect do
+        if isProtectedCaller(Function) then
+            local Lines = {};
+            stackTrace:gsub('[^\n\r]+', function(Line)
+                Lines[#Lines + 1] = Line:gsub('^@:', spoofedTrace);
+            end);
+
+            table.remove(Lines, 1);
+            table.remove(Lines, #Lines - 1);
+            
+            return table.concat(Lines, '\n') .. '\n';
+        end;
+    end;
+
+    return stackTrace:match'[^\n\r]*\n?(.*)';
+end);
+
+local secure_call = newcclosure(function(Function, Script, ...)
+    local old_env = getfenv();
+    toProtect[Function] = Script:GetFullName() .. ':';
+    local spoof_env = select(2, pcall(getsenv, Script));
+    spoof_env = (type(spoof_env) == 'string' or not spoof_env) and getrenv() or spoof_env;
+    spoof_env.script = spoof_env.script or Script;
+    
+    local setthreadcontext = setthreadcontext;
+    local securityContext = getthreadcontext and getthreadcontext() or 6;
+    setthreadcontext(2);
+    local Level = 0;
+    while true do
+        if not pcall(setfenv, Level + 2, spoof_env) then
+            break;
+        end;
+        Level = Level + 1;
+    end;
+
+    local ret = table.pack( Function(...) );
+    for i = 0, Level do
+        setfenv(i, old_env);
+    end;
+
+    setthreadcontext(securityContext)
+    return unpack(ret);
+end, "secure_call");
+
     game:GetService("StarterGui"):SetCore("SendNotification", {
         Title = "Dynamic!",
         Text = "Dynamic has been injected.",
