@@ -322,16 +322,6 @@ local secure_call = newcclosure(function(Function, Script, ...)
     return unpack(ret);
 end, "secure_call");
 
-							getgenv().getsenv = function(script_instance)
-   for i, v in pairs(getreg()) do
-      if type(v) == "function" then
-         if getfenv(v).script == script_instance then
-             return getfenv(v)
-             end
-          end
-     end
-end
-
     game:GetService("StarterGui"):SetCore("SendNotification", {
         Title = "Dynamic!",
         Text = "Dynamic has been injected.",
