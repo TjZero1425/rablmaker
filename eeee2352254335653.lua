@@ -191,21 +191,6 @@ getgenv().saveinstance = newcclosure(function(options)
 end)
 getgenv().savegame = saveinstance
 
-local _oldd = clonefunction(getscriptclosure)
-getgenv().getscriptclosure = newcclosure(function(scr) 
-    local closure = _oldd(scr)
-
-    if typeof(closure) == "function" then
-        local scriptEnv = getfenv(closure)
-
-        scriptEnv["script"] = scr
-
-        return closure
-    else
-        return nil
-    end
-end)
-
 getgenv().getscriptfunction = getscriptclosure
 
 getgenv().__Disassemble = decompile
