@@ -191,7 +191,8 @@ getgenv().saveinstance = newcclosure(function(options)
 end)
 getgenv().savegame = saveinstance
 
---[[getgenv().getscriptclosure = newcclosure(function(scr) 
+local _oldd = clonefunction(getscriptclosure)
+getgenv().getscriptclosure = newcclosure(function(scr) 
     local closure = _oldd(scr)
 
     if typeof(closure) == "function" then
@@ -204,7 +205,6 @@ getgenv().savegame = saveinstance
         return nil
     end
 end)
-]]
 
 getgenv().getscriptfunction = getscriptclosure
 
