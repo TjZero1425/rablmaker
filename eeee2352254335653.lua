@@ -160,16 +160,6 @@ getgenv().newlclosure = newcclosure(function(func)
 	end
 end)
 
- getgenv().getsenv = newcclosure(function(script_instance)
-    for i, v in pairs(getreg()) do
-       if type(v) == "function" then
-          if getfenv(v).script == script_instance then
-              return getfenv(v)
-              end
-           end
-      end
- end)
-
 do
     local CoreGui = cloneref(game:GetService('CoreGui'))
     local HttpService = cloneref(game:GetService('HttpService'))
