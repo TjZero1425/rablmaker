@@ -307,6 +307,15 @@ local secure_call = newcclosure(function(Function, Script, ...)
     return unpack(ret);
 end, "secure_call");
 
+getgenv().getconnection = newcclosure(function(signal, index)
+    local connections = getconnections(signal)
+    if index > 0 and index <= #connections then
+        return connections[index]
+    else
+        return nil
+    end
+end)
+
     game:GetService("StarterGui"):SetCore("SendNotification", {
         Title = "Dynamic!",
         Text = "Dynamic has been injected.",
