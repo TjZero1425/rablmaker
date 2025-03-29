@@ -80,27 +80,16 @@ local function register(i, v)
     return v
 end
 
---[[register('hookmetamethod', newcclosure(function(obj, method, func)
-    assert(type(obj) == 'table' or typeof(obj) == 'Instance', 'Instance or userdata expected as argument #1')
-    assert(type(method) == 'string', 'string expected as argument #2')
-    assert(type(func) == 'function', 'function expected as argument #3')
-
+getgenv().hookmetamethod = function(obj, method, rep)
     local mt = getrawmetatable(obj)
-    assert(type(mt) == 'table', 'object given in argument #1 has no metatable/it is wrong')
-
-    local funcfrom = rawget(mt, method)
-    assert(type(funcfrom) == 'function', 'invalid method provided in argument #2')
-
-    if (iscclosure(funcfrom) and not iscclosure(func)) then
-        func = newcclosure(func)
-    end
-
-    local old
-    old = hookfunction(funcfrom, func)
-
+    local old = mt[method]
+    
+    setreadonly(mt, false)
+    mt[method] = rep
+    setreadonly(mt, true)
+    
     return old
-end))
-]]
+end
 
 getgenv().getsimulationradius = function()
     assert(newRadius, `arg #1 is missing`)
