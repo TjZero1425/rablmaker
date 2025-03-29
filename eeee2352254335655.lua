@@ -80,17 +80,6 @@ local function register(i, v)
     return v
 end
 
-getgenv().hookmetamethod = function(obj, method, rep)
-    local mt = getrawmetatable(obj)
-    local old = mt[method]
-    
-    setreadonly(mt, false)
-    mt[method] = rep
-    setreadonly(mt, true)
-    
-    return old
-end
-
 getgenv().getsimulationradius = function()
     assert(newRadius, `arg #1 is missing`)
     assert(type(newRadius) == "number", `arg #1 must be type number`)
