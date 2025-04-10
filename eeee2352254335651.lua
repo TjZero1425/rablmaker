@@ -331,6 +331,13 @@ end)
 local oldrepsignal = clonefunction(replicatesignal)
 getgenv().replicatesignal = newcclosure(function(scriptsignal, ...)
      local signalrequiredargs = getsignalarguments(scriptsignal)
+
+     local passedArgs = { ... }
+
+    if #signalrequiredargs ~= #passedArgs then
+        return error("Argument count mismatch")
+    end
+									
      return oldrepsignal(signalrequiredargs, scriptsignal, ...)
 end)
 
