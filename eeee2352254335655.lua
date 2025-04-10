@@ -187,10 +187,6 @@ local RunOnActor = run_on_actor or syn.run_on_actor
 
 local OldPreloadAsync
 
-for i,v in pairs(getconnections(ScriptContextService.Error)) do 
-    v:Disable()
-end
-
 OldPreloadAsync = hookfunction(ContentProvider.PreloadAsync, function(self, ...)
     local args = {...}
 
@@ -293,6 +289,49 @@ getgenv().getconnection = newcclosure(function(signal, index)
     else
         return nil
     end
+end)
+
+							local HttpService = game:GetService("HttpService")
+
+local jsonApi = game:HttpGet("https://raw.githubusercontent.com/MaximumADHD/Roblox-Client-Tracker/refs/heads/roblox/Full-API-Dump.json")
+local parsedJson = HttpService:JSONDecode(jsonApi)
+jsonApi = nil
+
+local eventLookup = {}
+for _, class in ipairs(parsedJson.Classes) do
+    for _, member in ipairs(class.Members) do
+        if member.MemberType == "Event" then
+            local paramTypes = {}
+            if member.Parameters then
+                for _, param in ipairs(member.Parameters) do
+                    local typeName = param.Type and param.Type.Name
+                    if typeName then
+                        table.insert(paramTypes, typeName)
+                    end
+                end
+            end
+            eventLookup[member.Name] = paramTypes
+        end
+    end
+end
+parsedJson = nil
+getgenv().getsignalarguments = newcclosure(function(signalStr)
+   signalStr = tostring(signalStr)
+    local signalName = signalStr:match("^Signal%s+(%S+)")
+    if not signalName then return {} end
+
+    local jsonResult = eventLookup[signalName]
+    if jsonResult then
+        return jsonResult
+    end
+
+    return {}
+end)
+
+local oldrepsignal
+oldrepsignal = hookfunction(replicatesignal, function(scriptsignal, ...)
+    local signalrequiredargs = getsignalarguments(scriptsignal)
+    return oldrepsignal(signalrequiredargs, scriptsignal, ...)
 end)
 
     game:GetService("StarterGui"):SetCore("SendNotification", {
