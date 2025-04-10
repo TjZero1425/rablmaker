@@ -328,9 +328,8 @@ local getsignalarguments = newcclosure(function(signalStr)
     return {}
 end)
 
-local oldrepsignal = replicatesignal
-
-getgenv().replicatesignal = newcclosure(function(scriptsignal, ...)
+local oldrepsignal
+oldrepsignal = hookfunction(replicatesignal, newcclosure(function(scriptsignal, ...)
     local signalrequiredargs = getsignalarguments(scriptsignal)
     local passedArgs = { ... }
 
