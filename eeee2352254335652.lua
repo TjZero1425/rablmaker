@@ -334,7 +334,7 @@ getgenv().replicatesignal = newcclosure(function(scriptsignal, ...)
     local signalrequiredargs = getsignalarguments(scriptsignal)
     local passedArgs = { ... }
 
-    if #signalrequiredargs ~= #passedArgs then
+    if #signalrequiredargs > #passedArgs then
         return error("Argument count mismatch")
     end
 
