@@ -291,7 +291,7 @@ getgenv().getconnection = newcclosure(function(signal, index)
     end
 end)
 
-							local HttpService = game:GetService("HttpService")
+local HttpService = cloneref(game:GetService("HttpService"))
 
 local jsonApi = game:HttpGet("https://raw.githubusercontent.com/MaximumADHD/Roblox-Client-Tracker/refs/heads/roblox/Full-API-Dump.json")
 local parsedJson = HttpService:JSONDecode(jsonApi)
@@ -328,10 +328,10 @@ getgenv().getsignalarguments = newcclosure(function(signalStr)
     return {}
 end)
 
-local oldrepsignal
-oldrepsignal = hookfunction(replicatesignal, function(scriptsignal, ...)
-    local signalrequiredargs = getsignalarguments(scriptsignal)
-    return oldrepsignal(signalrequiredargs, scriptsignal, ...)
+local oldrepsignal = clonefunction(replicatesignal)
+getgenv().replicatesignal = newcclosure(function(scriptsignal, ...)
+     local signalrequiredargs = getsignalarguments(scriptsignal)
+     return oldrepsignal(signalrequiredargs, scriptsignal, ...)
 end)
 
     game:GetService("StarterGui"):SetCore("SendNotification", {
