@@ -315,7 +315,7 @@ for _, class in ipairs(parsedJson.Classes) do
     end
 end
 parsedJson = nil
-getgenv().getsignalarguments = newcclosure(function(signalStr)
+local getsignalarguments = newcclosure(function(signalStr)
    signalStr = tostring(signalStr)
     local signalName = signalStr:match("^Signal%s+(%S+)")
     if not signalName then return {} end
