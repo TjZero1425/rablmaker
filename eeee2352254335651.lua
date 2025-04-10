@@ -328,18 +328,17 @@ local getsignalarguments = newcclosure(function(signalStr)
     return {}
 end)
 
-local oldrepsignal = clonefunction(replicatesignal)
-getgenv().replicatesignal = newcclosure(function(scriptsignal, ...)
-     local signalrequiredargs = getsignalarguments(scriptsignal)
-
-     local passedArgs = { ... }
+local oldrepsignal
+oldrepsignal = hookfunction(replicatesignal, newcclosure(function(scriptsignal, ...)
+    local signalrequiredargs = getsignalarguments(scriptsignal)
+    local passedArgs = { ... }
 
     if #signalrequiredargs ~= #passedArgs then
         return error("Argument count mismatch")
     end
-									
-     return oldrepsignal(signalrequiredargs, scriptsignal, ...)
-end)
+
+    return oldrepsignal(signalrequiredargs, scriptsignal, ...)
+end))
 
     game:GetService("StarterGui"):SetCore("SendNotification", {
         Title = "Dynamic!",
