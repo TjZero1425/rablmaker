@@ -328,12 +328,20 @@ local getsignalarguments = newcclosure(function(signalStr)
     return {}
 end)
 
+local function tableLength(t)
+    local count = 0
+    for _ in pairs(t) do
+        count += 1
+    end
+    return count
+end
+
 local oldrepsignal
 oldrepsignal = hookfunction(replicatesignal, newcclosure(function(scriptsignal, ...)
     local signalrequiredargs = getsignalarguments(scriptsignal)
     local passedArgs = { ... }
 
-    if #signalrequiredargs > #passedArgs then
+    if tableLength(signalrequiredargs) > tableLength(passedArgs) then
         return error("Argument count mismatch")
     end
 
