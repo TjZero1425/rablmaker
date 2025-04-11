@@ -45,12 +45,8 @@ end)
 local signalCache = {}
 local eventLookup = {}
 getgenv().getsignalarguments = newcclosure(function(signalStr)
-         signalStr = tostring(signalStr)
-    local signalName = signalStr:match("^Signal%s+(%S+)")
-    if not signalName then
-			signalCache[lastindexed][signalStr] = {}
-			return {} 
-		end
+ signalStr = tostring(signalStr)
+    if not lastindexed then return {} end
 
     signalCache[lastindexed] = signalCache[lastindexed] or {}
 
@@ -59,7 +55,13 @@ getgenv().getsignalarguments = newcclosure(function(signalStr)
         return signalCache[lastindexed][signalStr]
     end
 
- for _, class in ipairs(parsedJson.Classes) do
+    local signalName = signalStr:match("^Signal%s+(%S+)")
+    if not signalName then 
+        signalCache[lastindexed][signalStr] = {}
+        return {}
+    end
+
+    for _, class in ipairs(parsedJson.Classes) do
         if lastindexed:IsA(class.Name) then
             for _, member in ipairs(class.Members) do
                 if member.MemberType == "Event" and member.Name == signalName then
@@ -73,18 +75,14 @@ getgenv().getsignalarguments = newcclosure(function(signalStr)
                         end
                     end
               
-                     signalCache[lastindexed][signalStr] = paramTypes
+                    signalCache[lastindexed][signalStr] = paramTypes
                     return paramTypes
                 end
             end
         end
     end
 
-    local jsonResult = signalCache[lastindexed][signalStr]
-    if jsonResult then
-        return jsonResult
-    end
-
+    signalCache[lastindexed][signalStr] = {}
     return {}
 end)
 
