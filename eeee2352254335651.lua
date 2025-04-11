@@ -378,17 +378,18 @@ getgenv().getsignalarguments = newcclosure(function(signalStr)
 end)
 
 getgenv().replicatesignal = newcclosure(function(scriptsignal, ...)
+    messagebox("e", "a", 0)
     local signalrequiredargs = getsignalarguments(scriptsignal)
     local passedArgs = { ... }
 
-
+    messagebox("e", "a1", 0)
     if #passedArgs > #signalrequiredargs then
         for i = #passedArgs, #signalrequiredargs + 1, -1 do
             passedArgs[i] = nil
         end
     end
 
-
+    messagebox("e", "a2", 0)
     if #passedArgs < #signalrequiredargs then
         local expectedIndex = #passedArgs + 1
         local expectedArg = signalrequiredargs[expectedIndex]
@@ -396,7 +397,7 @@ getgenv().replicatesignal = newcclosure(function(scriptsignal, ...)
         return error(string.format("missing argument #%d to '%s' (%s expected, got nil)", expectedIndex, "replicatesignal", expectedType))
     end
 
-
+    messagebox("e", "a3", 0)
     for i, expected in ipairs(signalrequiredargs) do
         local arg = passedArgs[i]
         local expectedStr = expected
@@ -436,7 +437,7 @@ getgenv().replicatesignal = newcclosure(function(scriptsignal, ...)
             ))
         end
     end
-
+    messagebox("e", "a4", 0)
     return oldfunc(signalrequiredargs, scriptsignal, table.unpack(passedArgs))
 end)
 
