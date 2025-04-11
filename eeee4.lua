@@ -44,7 +44,7 @@ end)
 
 local signalCache = {}
 
-getfenv().getsignalarguments = newcclosure(function(signalStr)
+getgenv().getsignalarguments = newcclosure(function(signalStr)
     signalStr = tostring(signalStr)
     if not lastindexed then return {} end
 
