@@ -47,7 +47,17 @@ local eventLookup = {}
 getgenv().getsignalarguments = newcclosure(function(signalStr)
          signalStr = tostring(signalStr)
     local signalName = signalStr:match("^Signal%s+(%S+)")
-    if not signalName then return {} end
+    if not signalName then
+			signalCache[lastindexed][signalStr] = {}
+			return {} 
+		end
+
+    signalCache[lastindexed] = signalCache[lastindexed] or {}
+
+
+    if signalCache[lastindexed][signalStr] then
+        return signalCache[lastindexed][signalStr]
+    end
 
  for _, class in ipairs(parsedJson.Classes) do
         if lastindexed:IsA(class.Name) then
