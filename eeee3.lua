@@ -49,22 +49,26 @@ getgenv().getsignalarguments = newcclosure(function(signalStr)
     local signalName = signalStr:match("^Signal%s+(%S+)")
     if not signalName then return {} end
 
-for _, class in ipairs(parsedJson.Classes) do
-    for _, member in ipairs(class.Members) do
-        if member.MemberType == "Event" and member.Name == signalName then
-            local paramTypes = {}
-            if member.Parameters then
-                for _, param in ipairs(member.Parameters) do
-                    local typeName = param.Type and param.Type.Name
-                    if typeName then
-                        table.insert(paramTypes, typeName)
+ for _, class in ipairs(parsedJson.Classes) do
+        if lastindexed:IsA(class.Name) then
+            for _, member in ipairs(class.Members) do
+                if member.MemberType == "Event" and member.Name == signalName then
+                    local paramTypes = {}
+                    if member.Parameters then
+                        for _, param in ipairs(member.Parameters) do
+                            local typeName = param.Type and param.Type.Name
+                            if typeName then
+                                table.insert(paramTypes, typeName)
+                            end
+                        end
                     end
+              
+                    eventLookup[lastindexed][signalStr] = paramTypes
+                    return paramTypes
                 end
             end
-            eventLookup[member.Name] = paramTypes
         end
     end
-end
 
     local jsonResult = eventLookup[signalName]
     if jsonResult then
