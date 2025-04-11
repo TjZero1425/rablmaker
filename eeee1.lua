@@ -102,7 +102,8 @@ getgenv().replicatesignal = newcclosure(function(scriptsignal, ...)
 
 		local numericLike = { int = true, int64 = true, float = true, double = true, number = true }
 		local booleanLike = { bool = true, boolean = true }
-		local isEnum = pcall(function() return typeof(arg) == "EnumItem" end)
+		local success, result = pcall(function() return typeof(arg) end)
+		local isEnum = success and result == "EnumItem"
 
 		local isAllowed =
 			actualType == expected or
@@ -111,11 +112,11 @@ getgenv().replicatesignal = newcclosure(function(scriptsignal, ...)
 			(numericLike[expected] and actualType == "number") or
 			(booleanLike[expected] and actualType == "boolean")
 
-		if isEnum then
-			if string.find(tostring(arg), tostring(expected)) then
-				isAllowed = true
-			end
-		end
+		if isEnum and typeof(expected) == "string" then
+	if tostring(arg.EnumType) == expected or tostring(arg) == expected then
+		isAllowed = true
+	end
+end
 
 		if not isAllowed then
 			messagebox(string.format("Invalid argument #%d to 'replicatesignal': expected %s, got %s", i, expected, actualClassName or actualTypeOf), "replicatesignal Error", 0)
