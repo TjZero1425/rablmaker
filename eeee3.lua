@@ -44,7 +44,6 @@ end)
 
 local signalCache = {}
 local eventLookup = {}
-parsedJson = nil
 getgenv().getsignalarguments = newcclosure(function(signalStr)
          signalStr = tostring(signalStr)
     local signalName = signalStr:match("^Signal%s+(%S+)")
