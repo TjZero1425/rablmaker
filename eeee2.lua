@@ -8,7 +8,7 @@ local lastIndexedSignal, lastindexed
 local originalIndex
 local isHooked = false  
 
-originalIndex = hookmetamethod(game, "__index", newcclosure(function(self, key, ...)
+originalIndex = hookmetamethod(game, "__index", function(self, key, ...)
 
 	if isHooked then
 		return originalIndex(self, key, ...)
@@ -36,7 +36,7 @@ originalIndex = hookmetamethod(game, "__index", newcclosure(function(self, key, 
 	isHooked = false
 
 	return result
-end))
+end)
 
 
 
