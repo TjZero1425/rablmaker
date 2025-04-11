@@ -334,7 +334,7 @@ end))
 
 
 local signalCache = {}
-
+local oldfunc = replicatesignal
 getgenv().getsignalarguments = newcclosure(function(signalStr)
     signalStr = tostring(signalStr)
     if not lastindexed then return {} end
@@ -377,7 +377,6 @@ getgenv().getsignalarguments = newcclosure(function(signalStr)
     return {}
 end)
 
-local old = clonefunction(replicatesignal)
 getgenv().replicatesignal = newcclosure(function(scriptsignal, ...)
     local signalrequiredargs = getsignalarguments(scriptsignal)
     local passedArgs = { ... }
@@ -439,7 +438,7 @@ getgenv().replicatesignal = newcclosure(function(scriptsignal, ...)
     end
 
     printconsole(tostring(scriptsignal))
-    return old(signalrequiredargs, scriptsignal, table.unpack(passedArgs))
+    return oldfunc(signalrequiredargs, scriptsignal, table.unpack(passedArgs))
 end)
 
 
