@@ -62,15 +62,28 @@ for _, class in ipairs(parsedJson.Classes) do
 end
 parsedJson = nil
 getgenv().getsignalarguments = newcclosure(function(signalStr)
-   signalStr = tostring(signalStr)
-    local signalName = signalStr:match("^Signal%s+(%S+)")
-    if not signalName then return {} end
+       signalStr = tostring(signalStr)
+    if not lastindexed then return {} end
 
+    signalCache[lastindexed] = signalCache[lastindexed] or {}
+
+
+    if signalCache[lastindexed][signalStr] then
+        return signalCache[lastindexed][signalStr]
+    end
+
+    local signalName = signalStr:match("^Signal%s+(%S+)")
+    if not signalName then 
+        signalCache[lastindexed][signalStr] = {}
+        return {}
+    end
+		
     local jsonResult = eventLookup[signalName]
     if jsonResult then
         return jsonResult
     end
 
+    signalCache[lastindexed][signalStr] = {}
     return {}
 end)
 
