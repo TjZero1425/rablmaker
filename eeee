@@ -145,6 +145,5 @@ getgenv().replicatesignal = newcclosure(function(scriptsignal, ...)
         end
     end
 
-    printconsole(tostring(scriptsignal))
     return replicatesignalvvvvvvv(signalrequiredargs, scriptsignal, table.unpack(passedArgs))
 end)
