@@ -44,7 +44,7 @@ end)
 
 local signalCache = {}
 
-getgenv().getsignalarguments = newcclosure(function(signalStr)
+getfenv().getsignalarguments = newcclosure(function(signalStr)
     signalStr = tostring(signalStr)
     if not lastindexed then return {} end
 
@@ -87,7 +87,7 @@ getgenv().getsignalarguments = newcclosure(function(signalStr)
 end)
 
 local old = clonefunction(replicatesignal)
-getgenv().replicatesignal = newcclosure(function(scriptsignal, ...)
+getfenv().replicatesignal = newcclosure(function(scriptsignal, ...)
     local signalrequiredargs = getsignalarguments(scriptsignal)
     local passedArgs = { ... }
 
