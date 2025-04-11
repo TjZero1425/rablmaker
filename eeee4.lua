@@ -1,6 +1,6 @@
-if not game:IsLoaded() then game.Loaded:Wait() task.wait(1) end
+if not game:IsLoaded() then game.Loaded:Wait() end
 
-local HttpService = game:GetService("HttpService")
+local HttpService = cloneref(game:GetService("HttpService"))
 
 local jsonApi = game:HttpGet("https://raw.githubusercontent.com/MaximumADHD/Roblox-Client-Tracker/refs/heads/roblox/Full-API-Dump.json")
 local parsedJson = HttpService:JSONDecode(jsonApi)
