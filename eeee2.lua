@@ -64,18 +64,13 @@ parsedJson = nil
 getgenv().getsignalarguments = newcclosure(function(signalStr)
        signalStr = tostring(signalStr)
     if not lastindexed then return {} end
-
+ local signalName = signalStr:match("^Signal%s+(%S+)")
+    if not signalName then return {} end
     signalCache[lastindexed] = signalCache[lastindexed] or {}
 
 
     if signalCache[lastindexed][signalStr] then
         return signalCache[lastindexed][signalStr]
-    end
-
-    local signalName = signalStr:match("^Signal%s+(%S+)")
-    if not signalName then 
-        signalCache[lastindexed][signalStr] = {}
-        return {}
     end
 		
     local jsonResult = eventLookup[signalName]
