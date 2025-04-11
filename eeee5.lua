@@ -86,8 +86,8 @@ getgenv().getsignalarguments = newcclosure(function(signalStr)
     return {}
 end)
 
-local old
-old = hookfunction(replicatesignal,newcclosure(function(scriptsignal, ...)
+local old = clonefunction(replicatesignal)
+getgenv().replicatesignal = newcclosure(function(scriptsignal, ...)
     local signalrequiredargs = getsignalarguments(scriptsignal)
     local passedArgs = { ... }
 
@@ -148,4 +148,4 @@ old = hookfunction(replicatesignal,newcclosure(function(scriptsignal, ...)
     end
 
     return old(signalrequiredargs, scriptsignal, table.unpack(passedArgs))
-end))
+end)
