@@ -43,49 +43,35 @@ originalIndex = hookmetamethod(game, "__index", function(self, key, ...)
 end)
 
 local signalCache = {}
-
+local eventLookup = {}
+for _, class in ipairs(parsedJson.Classes) do
+    for _, member in ipairs(class.Members) do
+        if member.MemberType == "Event" then
+            local paramTypes = {}
+            if member.Parameters then
+                for _, param in ipairs(member.Parameters) do
+                    local typeName = param.Type and param.Type.Name
+                    if typeName then
+                        table.insert(paramTypes, typeName)
+                    end
+                end
+            end
+            eventLookup[member.Name] = paramTypes
+        end
+    end
+end
+parsedJson = nil
 getgenv().getsignalarguments = newcclosure(function(signalStr)
-	signalStr = tostring(signalStr)
-	if not lastindexed then 
-		messagebox("No lastindexed instance for signal: " .. signalStr, "SignalArg Debug", 0)
-		return {} 
-	end
+   signalStr = tostring(signalStr)
+    local signalName = signalStr:match("^Signal%s+(%S+)")
+    if not signalName then return {} end
 
-	signalCache[lastindexed] = signalCache[lastindexed] or {}
+    local jsonResult = eventLookup[signalName]
+    if jsonResult then
+        return jsonResult
+    end
 
-	if signalCache[lastindexed][signalStr] then
-		return signalCache[lastindexed][signalStr]
-	end
-
-	local signalName = signalStr:match("^Signal%s+(%S+)")
-	if not signalName then 
-		signalCache[lastindexed][signalStr] = {}
-		return {}
-	end
-
-	for _, class in ipairs(parsedJson.Classes) do
-		if lastindexed:IsA(class.Name) then
-			for _, member in ipairs(class.Members) do
-				if member.MemberType == "Event" and member.Name == signalName then
-					local paramTypes = {}
-					if member.Parameters then
-						for _, param in ipairs(member.Parameters) do
-							local typeName = param.Type and param.Type.Name
-							if typeName then
-								table.insert(paramTypes, typeName)
-							end
-						end
-					end
-					messagebox("Signal matched: " .. signalName .. " | Args: " .. table.concat(paramTypes, ", "), "SignalArg Debug", 0)
-					signalCache[lastindexed][signalStr] = paramTypes
-					return paramTypes
-				end
-			end
-		end
-	end
-
-	signalCache[lastindexed][signalStr] = {}
-	return {}
+    return {}
 end)
 
 local old = clonefunction(replicatesignal)
