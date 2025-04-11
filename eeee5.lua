@@ -1,4 +1,4 @@
-if not game:IsLoaded() then game.Loaded:Wait() end
+if not game:IsLoaded() then game.Loaded:Wait() task.wait(1) end
 
 local HttpService = cloneref(game:GetService("HttpService"))
 
