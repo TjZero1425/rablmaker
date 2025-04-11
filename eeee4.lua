@@ -63,14 +63,14 @@ getgenv().getsignalarguments = newcclosure(function(signalStr)
                         end
                     end
               
-                    eventLookup[lastindexed][signalStr] = paramTypes
+                     signalCache[lastindexed][signalStr] = paramTypes
                     return paramTypes
                 end
             end
         end
     end
 
-    local jsonResult = eventLookup[signalName]
+    local jsonResult = signalCache[lastindexed][signalStr]
     if jsonResult then
         return jsonResult
     end
