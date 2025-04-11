@@ -1,5 +1,16 @@
 local HttpService = game:GetService("HttpService")
 
+getgenv().hookmetamethod = function(obj, method, rep) -- Will only work on Internal Executors with a working GetRawMetatable & SetReadOnly
+    local mt = getrawmetatable(obj)
+    local old = mt[method]
+    
+    setreadonly(mt, false)
+    mt[method] = rep
+    setreadonly(mt, true)
+    
+    return old
+end
+
 local jsonApi = game:HttpGet("https://raw.githubusercontent.com/MaximumADHD/Roblox-Client-Tracker/refs/heads/roblox/Full-API-Dump.json")
 local parsedJson = HttpService:JSONDecode(jsonApi)
 jsonApi = nil
